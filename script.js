@@ -11,23 +11,33 @@ function getComputerChoice() {
     return choice;
 }
 
+let playerScore = 0;
+let computerScore = 0;
+
 function playRound(playerSelection, computerSelection) {
     let result = '';
+
     playerSelection = playerSelection.toUpperCase();
     if (playerSelection == computerSelection) {
         result = 'Both of you chose ' + playerSelection + ' Its a Draw!';
     } else if (playerSelection == 'ROCK' && computerSelection == 'PAPER') {
         result = 'You Lose! Paper beats Rock';
+        computerScore++;
     } else if (playerSelection == 'ROCK' && computerSelection == 'SCISSOR') {
         result = 'You Won! Rock beats Scissor';
+        playerScore++;
     } else if (playerSelection == 'PAPER' && computerSelection == 'SCISSOR') {
         result = 'You Lose! Scissor beats Paper';
+        computerScore++;
     } else if (playerSelection == 'PAPER' && computerSelection == 'ROCK') {
         result = 'You Won! Paper beats Rock';
+        playerScore++;
     } else if (playerSelection == 'SCISSOR' && computerSelection == 'ROCK') {
         result = 'You Lose! Rock beats Scissor';
+        computerScore++;
     } else if (playerSelection == 'SCISSOR' && computerSelection == 'PAPER') {
         result = 'You Won! Scissor beats Paper';
+        playerScore++;
     } else {
         result = 'Choose only between Rock, Paper and Scissor';
     }
@@ -35,11 +45,26 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function game() {
-    for (let i = 0; i < 5; i++) {
-        let player = prompt('Rock, Paper or Scissor?');
+    if (playerScore < 5 || computerScore < 5) {
         let computer = getComputerChoice();
-        console.log(playRound(player, computer));
+        let player = this.id;
+        document.getElementById('results').innerHTML = playRound(
+            player,
+            computer
+        );
+        document.getElementById('playerScore').innerHTML =
+            'Player Score: ' + playerScore;
+        document.getElementById('computerScore').innerHTML =
+            'Computer Score: ' + computerScore;
+        console.log('Player: ' + player);
+        console.log('Computer: ' + computer);
+    } else {
+        playerScore = 0;
+        computerScore = 0;
+        document.getElementById('results').innerHTML =
+            'The game has been reset';
     }
 }
 
-game();
+const btns = document.querySelectorAll('button');
+btns.forEach((btn) => btn.addEventListener('click', game));
